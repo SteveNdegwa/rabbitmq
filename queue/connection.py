@@ -1,18 +1,18 @@
 import time
 from pika import PlainCredentials, ConnectionParameters, BlockingConnection, exceptions
 
-import config
+# import config
 
 
 class RabbitMQConnection:
     _instance = None
 
-    def __new__(cls, host="localhost", port=5672, username="root", password="tenant"):
+    def __new__(cls, host="localhost", port=5672, username="guest", password="password"):
         if not cls._instance:
             cls._instance = super().__new__(cls)
         return cls._instance
 
-    def __init__(self, host="localhost", port=5672, username="root", password="root"):
+    def __init__(self, host="localhost", port=5672, username="guest", password="password"):
         self.host = host
         self.port = port
         self.username = username
@@ -38,7 +38,7 @@ class RabbitMQConnection:
             except exceptions.AMQPConnectionError as e:
                 print("Failed to connect to RabbitMQ:", e)
                 retries += 1
-                wait_time = config.Config().waiting_factor() ** retries
+                wait_time = 2 ** retries
                 print(f"Retrying in {wait_time} seconds...")
                 time.sleep(wait_time)
 
@@ -58,3 +58,4 @@ class RabbitMQConnection:
             return self.connection.channel()
 
         return None
+
