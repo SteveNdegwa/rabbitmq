@@ -25,9 +25,16 @@ SECRET_KEY = 'django-insecure-crszmi9u1!8(6@v=^!qw7hlpbzi9@vxax(7gr2i@8xv*9=_be9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
-
+USERNAME = "root"
+PASSWORD = "tenant"
+HOST = "localhost"
+SMS_EXCHANGE = "SMS"
+DOCUMENT_EXCHANGE = "DOCUMENT"
+SMS_QUEUE = "SMSQUEUE"
+DOCUMENT_QUEUE = "DOCUMENTQUEUE"
+SMS_TREND_URL = ""
 # Application definition
 
 INSTALLED_APPS = [
