@@ -56,7 +56,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'REDIS.urls'
+ROOT_URLCONF = 'RABBITQUEUE.urls'
 
 TEMPLATES = [
     {
@@ -74,7 +74,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'REDIS.wsgi.application'
+WSGI_APPLICATION = 'RABBITQUEUE.wsgi.application'
 
 
 # Database

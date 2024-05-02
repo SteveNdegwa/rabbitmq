@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 
 from api.utils.common import get_request_data
-from queue.producer import Producers
+from queue_data.producer import Producers
 
 
 class GeneratePayload(object):
@@ -10,7 +10,7 @@ class GeneratePayload(object):
 		d = dict()
 		data = get_request_data(request)
 		customer_id = data.get('customer_id')
-		messages = data.get('message_list')
+		messages = data['message_list']
 		failed_messages = list()
 		for message in messages:
 			d['message'] = message
@@ -25,4 +25,8 @@ class GeneratePayload(object):
 		return JsonResponse({"code": "200.000", "message": "Success"})
 
 
+from django.urls import path, include
 
+urlpatterns = [
+	path('sms/', GeneratePayload().formulate_sms),
+]

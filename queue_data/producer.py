@@ -1,12 +1,13 @@
 import pika
 from django.conf import settings
-
-from connection import RabbitMQConnection
+from queue_data.worker import Worker
+from queue_data.connection import RabbitMQConnection
 
 
 class Producers(object):
     def __init__(self):
         self.conn = RabbitMQConnection()
+
 
     def process_sms(self, **data):
         k = {"type": "SMS"}
@@ -37,3 +38,6 @@ class Producers(object):
         self.conn.close()
         print(f" [x] Sent {message}")
         return {"code": "200.000", "message": f" [x] Sent {message}"}
+
+
+
