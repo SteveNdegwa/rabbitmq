@@ -23,12 +23,16 @@ def consume_channel(queue):
                     count += 1
                     print(f"Received message {count} from queue '{method.routing_key}': {body.decode()}")
                     time.sleep(10)
-                    print(f"Processed message {count}")
+                    print(f"Processed document {count} I am at the DOCUMENT worker")
                     ch.basic_ack(delivery_tag=method.delivery_tag)
 
                 channel.basic_consume(queue=queue, on_message_callback=callback, auto_ack=False)
                 print(f"Started consuming from queue '{queue}'")
-                channel.start_consuming()
+                try:
+                    channel.start_consuming()
+                except KeyboardInterrupt:
+                    print("Stopping consumer...")
+                    channel.stop_consuming()
         except pika.exceptions.StreamLostError as e:
             print(f"Failed to consume from queue '{queue}': {e}. Reconnecting and retrying in 5 seconds...")
             time.sleep(5)
