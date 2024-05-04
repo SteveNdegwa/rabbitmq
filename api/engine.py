@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 
 from api.utils.common import get_request_data
-from queue_data.producer import Producers
+from processors.producer import Producers
 
 
 class GeneratePayload(object):
@@ -24,9 +24,20 @@ class GeneratePayload(object):
 			Producers().process_sms(**msg)
 		return JsonResponse({"code": "200.000", "message": "Success"})
 
+	@staticmethod
+	def formulate_document_data(request):
+		d = dict()
+		data = get_request_data(request)
+		d["data"] = data
+		resp = Producers().process_documents(**d)
+		if resp.get('code') != "200.000":
+			Producers().process_documents(**data)
+		return JsonResponse({"code": "200.000", "message": "Success"})
 
-from django.urls import path, include
+
+from django.urls import path
 
 urlpatterns = [
 	path('sms/', GeneratePayload().formulate_sms),
+	path('document/', GeneratePayload().formulate_document_data),
 ]
