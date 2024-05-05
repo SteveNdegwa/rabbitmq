@@ -28,13 +28,13 @@ class Producers(object):
         self.conn.connect()
         k = {'type': 'DOCUMENT'}
         channel = self.conn.get_channel(**k)
-        data = json.dumps(data)
+        # data = json.dumps(data)
         channel.basic_publish(
             exchange=settings.DOCUMENT_EXCHANGE,
             routing_key=settings.DOCUMENT_QUEUE,
             body=str(data),
             properties=pika.BasicProperties(
-                delivery_mode=2,  # Make the message persistent
+                delivery_mode=2,
             ))
         self.conn.close()
         print(f" [x] Sent document to 'documents_queue': {data}")
